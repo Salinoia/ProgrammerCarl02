@@ -219,7 +219,7 @@ class Part2{
         Node(int _val, Node* _left, Node* _right, Node* _next)
             : val(_val), left(_left), right(_right), next(_next) {}
     };
-    // leetcode 116
+    // leetcode 116 & 117
     Node* connect(Node* root) {
         // 如果根节点为空，直接返回空指针
         if (root == nullptr) return nullptr;
@@ -262,6 +262,57 @@ class Part2{
 
         // 返回修改后的根节点
         return root;
+    }
+    // leetcode 104
+    int maxDepth(TreeNode* root) {
+        if (root == NULL) return 0;
+        // 递归计算左右子树的最大深度，并返回较大的深度加1
+        return std::max(maxDepth(root->left), maxDepth(root->right)) + 1;
+    }
+
+    int maxDepth(TreeNode* root){
+        if(root == nullptr) return 0;
+        queue<TreeNode*> que;
+        int depth = 0;
+        que.push(root);
+        while(!que.empty()){
+            int size = que.size();
+            depth++;
+            for(int i = 0; i < size; ++i){
+                TreeNode* node = que.front();
+                que.pop();
+                if(node->left) que.push(node->left);
+                if(node->right) que.push(node->right);
+            }
+        }
+        return depth;
+    }
+
+    // leetcode 111
+    int minDepth(TreeNode* root) {
+        if(root == nullptr) return 0;
+        if(!root->left) return minDepth(root->right) + 1;
+        if(!root->right) return minDepth(root->left) + 1;
+        return std::min(minDepth(root->left), minDepth(root->right)) + 1;
+    }
+
+    int minDepth(TreeNode* root) {
+        if(root == nullptr) return 0;
+        queue<TreeNode*> que;
+        int depth = 0;
+        que.push(root);
+        while(!que.empty()){
+            int size = que.size();
+            depth++;
+            for(int i = 0; i < size; ++i){
+                TreeNode* node = que.front();
+                que.pop();
+                if(node->left) que.push(node->left);
+                if(node->right) que.push(node->right);
+                if(!node->left && !node->right) return depth;
+            }
+        }
+        return depth;
     }
 };
 
